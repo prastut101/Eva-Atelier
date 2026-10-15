@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf8f3">
+  <title>My Wishlist | EVA Atelier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/premium.css">
+  <link rel="stylesheet" href="/static/css/cart.css">
+  <link rel="stylesheet" href="/static/css/wishlist-tracking.css">
+  <script src="/static/js/wishlist.js" defer></script>
+  <script src="/static/js/cart.js" defer></script>
+</head>
+<body>
+  <div class="announcement">EVA ATELIER · THOUGHTFULLY SELECTED</div>
+  <header class="site-header">
+    <a class="wordmark" href="/">EVA <span>ATELIER</span></a>
+    <nav class="main-nav">
+      <a href="/">SHOP</a>
+      <a href="/wishlist" aria-current="page">WISHLIST</a>
+      <a href="/track-order">TRACK ORDER</a>
+    </nav>
+  </header>
+
+  <main class="feature-page">
+    <p class="eyebrow">YOUR PERSONAL EDIT</p>
+    <h1>Pieces to <em>remember.</em></h1>
+    <p class="feature-intro">Keep the pieces you love close, until you're ready to make them yours.</p>
+    <div id="wishlist-message" class="feature-message" role="status" aria-live="polite">Loading your saved pieces…</div>
+    <div id="wishlist-grid" class="feature-grid"></div>
+  </main>
+
+  <footer class="site-footer">
+    <a class="wordmark" href="/">EVA <span>ATELIER</span></a>
+    <p>Every carry tells a story.</p>
+    <a href="/track-order">TRACK YOUR ORDER</a>
+  </footer>
+</body>
+</html>

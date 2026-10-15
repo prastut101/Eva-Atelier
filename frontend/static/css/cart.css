@@ -1,0 +1,229 @@
+.eva-cart-floating {
+  position: fixed;
+  z-index: 1000;
+  right: 22px;
+  bottom: 22px;
+  border: 1px solid #29251f;
+  background: #29251f;
+  color: #fff;
+  padding: 14px 20px;
+  letter-spacing: .12em;
+  font-size: 11px;
+  cursor: pointer;
+  box-shadow: 0 8px 28px #29251f24;
+}
+#eva-cart-count {
+  display: inline-grid;
+  place-items: center;
+  margin-left: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #f8f5ef;
+  color: #29251f;
+  letter-spacing: 0;
+}
+.eva-cart-overlay[hidden],
+.eva-checkout-form[hidden],
+.eva-cart-items[hidden],
+.eva-cart-summary[hidden] {
+  display: none !important;
+}
+.eva-cart-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  justify-content: flex-end;
+  background: #17151080;
+}
+.eva-cart-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 540px);
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 28px;
+  background: #f8f5ef;
+  color: #29251f;
+  box-shadow: -10px 0 40px #00000012;
+}
+.eva-cart-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ded8cd;
+  padding-bottom: 20px;
+}
+.eva-cart-eyebrow {
+  margin: 0 0 8px;
+  font-size: 10px;
+  letter-spacing: .18em;
+}
+.eva-cart-heading h2,
+.eva-checkout-form h3 {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 500;
+}
+.eva-cart-heading h2 { font-size: 30px; }
+.eva-cart-close {
+  border: 0;
+  background: transparent;
+  font-size: 34px;
+  cursor: pointer;
+  color: inherit;
+}
+.eva-cart-items { padding: 8px 0; }
+.eva-cart-item {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  gap: 14px;
+  position: relative;
+  padding: 20px 0;
+  border-bottom: 1px solid #ded8cd;
+}
+.eva-cart-thumb {
+  width: 78px;
+  height: 92px;
+  object-fit: cover;
+  background: #ece6dc;
+}
+.eva-cart-thumb-empty {
+  display: grid;
+  place-items: center;
+  font-family: "Playfair Display", Georgia, serif;
+}
+.eva-cart-item-info h3 {
+  margin: 0 0 7px;
+  padding-right: 54px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.eva-cart-item-info p {
+  margin: 0 0 12px;
+  font-size: 12px;
+}
+.eva-cart-line-total {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  font-size: 12px;
+  font-weight: 500;
+}
+.eva-cart-quantity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+.eva-cart-quantity button {
+  cursor: pointer;
+  border: 1px solid #d5cec1;
+  background: transparent;
+  color: inherit;
+  min-width: 25px;
+  height: 25px;
+}
+.eva-cart-quantity button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+.eva-cart-quantity .eva-cart-remove {
+  border: 0;
+  text-decoration: underline;
+  margin-left: auto;
+}
+.eva-cart-summary {
+  margin-top: auto;
+  padding-top: 20px;
+}
+.eva-cart-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 0;
+  border-top: 1px solid #ded8cd;
+  font-size: 13px;
+}
+.eva-cart-total strong { font-size: 15px; font-weight: 600; }
+.eva-cart-shipping,
+.eva-checkout-legal {
+  color: #716a60;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.eva-cart-primary,
+.eva-cart-secondary {
+  width: 100%;
+  border: 1px solid #29251f;
+  padding: 15px;
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: .13em;
+}
+.eva-cart-primary {
+  background: #29251f;
+  color: white;
+}
+.eva-cart-primary:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+.eva-cart-secondary {
+  background: transparent;
+  color: #29251f;
+}
+.eva-cart-empty {
+  padding: 40px 0;
+  text-align: center;
+  font-family: "Playfair Display", Georgia, serif;
+  line-height: 1.7;
+}
+.eva-checkout-form { padding-top: 18px; }
+.eva-checkout-back {
+  border: 0;
+  background: transparent;
+  padding: 0 0 20px;
+  cursor: pointer;
+  color: #5f584e;
+  font-size: 12px;
+}
+.eva-checkout-form h3 {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+.eva-checkout-form label {
+  display: block;
+  margin: 15px 0 6px;
+  font-size: 11px;
+  letter-spacing: .03em;
+}
+.eva-checkout-form input,
+.eva-checkout-form textarea,
+.eva-checkout-form select {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  border: 1px solid #d5cec1;
+  border-radius: 0;
+  background: #fffdfa;
+  color: #29251f;
+  padding: 12px;
+  font: inherit;
+  font-size: 13px;
+}
+.eva-checkout-form textarea { resize: vertical; }
+.eva-checkout-total { margin-top: 20px; }
+.eva-checkout-message {
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.eva-checkout-message.is-error { color: #9b3028; }
+@media (max-width: 520px) {
+  .eva-cart-panel { padding: 20px 18px; }
+  .eva-cart-floating { right: 14px; bottom: 14px; }
+}

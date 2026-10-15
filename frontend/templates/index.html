@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf8f3">
+  <title>EVA Atelier — Every Carry Tells a Story</title>
+  <meta name="description" content="Discover timeless handbags and everyday essentials at EVA Atelier, Nepal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/premium.css">
+    <link rel="stylesheet" href="/static/css/wishlist-tracking.css">
+  <link rel="stylesheet" href="/static/css/cart.css">
+  <script src="/static/js/wishlist.js?v=20261013" defer></script>
+  <script src="/static/js/store.js?v=20261013" defer></script>
+  <script src="/static/js/cart.js" defer></script>
+</head>
+<body>
+  <div class="announcement">
+    COMPLIMENTARY DELIVERY ON SELECT ORDERS · NEPAL
+  </div>
+
+  <header class="site-header">
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">☰</button>
+
+    <a class="wordmark" href="/" aria-label="EVA Atelier home">
+      EVA
+      <span>ATELIER</span>
+    </a>
+
+    <nav class="main-nav" id="main-nav">
+      <a class="nav-active" href="/">HOME</a>
+      <a href="#collection">SHOP</a>
+      <a href="#philosophy">ABOUT</a>
+      <a href="#contact">CONTACT</a>
+      <a href="/wishlist">WISHLIST</a>
+      <a href="/track-order">TRACK ORDER</a>
+    </nav>
+
+    <div class="header-actions">
+      <form class="header-search" id="header-search" role="search">
+        <input id="search-products" type="search" placeholder="Search bags..." aria-label="Search products">
+        <button type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>
+        </button>
+      </form>
+
+      <a class="icon-link" href="/admin" aria-label="Account">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4.5 21v-2a7.5 7.5 0 0 1 15 0v2"></path>
+        </svg>
+      </a>
+
+      <a class="icon-link bag-link" href="/cart" aria-label="Shopping bag">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 8h14l1 13H4L5 8Z"></path>
+          <path d="M9 9V6a3 3 0 0 1 6 0v3"></path>
+        </svg>
+        <span class="bag-count" id="header-bag-count">0</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">TIMELESS ELEGANCE</p>
+        <h1>Luxury Handbags<br>for Every <em>Moment.</em></h1>
+        <p class="hero-description">
+          Thoughtfully selected pieces designed for the modern woman —
+          where timeless style meets everyday purpose.
+        </p>
+        <a class="primary-button" href="#collection">SHOP NOW <span>→</span></a>
+        <div class="hero-footnote">
+          <span>QUALITY · DETAIL · INTENT</span>
+          <span>DESIGNED FOR EVERYDAY</span>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <img
+          src="/static/images/eva-atelier-banner.png"
+          alt="EVA Atelier luxury cream handbag editorial"
+          onerror="this.style.display='none';this.parentElement.classList.add('hero-no-image')"
+        >
+        <div class="hero-image-caption">
+          <span>THE EVERYDAY EDIT</span>
+          <strong>Less, but better.</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="category-section" aria-label="Shop by category">
+      <div class="category-bar" id="categories">
+        <p class="loading-message" id="category-status">Loading collections…</p>
+      </div>
+    </section>
+
+    <section class="collection section-wrap" id="collection">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">CURATED FOR YOU</p>
+          <h2>Featured <em>Collection.</em></h2>
+        </div>
+        <a class="view-all" href="#collection">VIEW ALL <span>→</span></a>
+      </div>
+
+      <div class="catalog-meta">
+        <span id="product-count">DISCOVER THE COLLECTION</span>
+        <label for="sort-products">SORT BY
+          <select id="sort-products">
+            <option value="default">Featured</option>
+            <option value="price-low">Price: low to high</option>
+            <option value="price-high">Price: high to low</option>
+            <option value="name">Name: A–Z</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="product-grid" id="product-grid" aria-live="polite">
+        <p class="loading-message">Discovering the collection…</p>
+      </div>
+      <p class="catalog-error" id="catalog-error" hidden></p>
+    </section>
+
+    <section class="brand-note" id="philosophy">
+      <p class="eyebrow">OUR PHILOSOPHY</p>
+      <h2>Quality. Detail. <em>Intent.</em></h2>
+      <p>Every carry tells a story. Find the piece that becomes part of yours.</p>
+      <a href="#collection">DISCOVER EVA ATELIER ↗</a>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <a class="wordmark" href="/">EVA <span>ATELIER</span></a>
+    <p>Every carry tells a story.</p>
+    <a href="/track-order">TRACK ORDER</a>
+    <a href="/wishlist">WISHLIST</a>
+    <a href="mailto:evaatelierofficial.np@gmail.com">CONTACT US</a>
+    <span>© <span id="year"></span> EVA ATELIER</span>
+  </footer>
+</body>
+</html>

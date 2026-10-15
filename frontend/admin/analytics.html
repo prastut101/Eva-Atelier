@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EVA Atelier | Analytics</title>
+<style>
+:root {
+  --bg: #f8f6f1;
+  --panel: #ffffff;
+  --ink: #25241f;
+  --muted: #817e75;
+  --line: #e9e5dc;
+  --accent: #8b7657;
+  --green: #47745b;
+  --red: #a65048;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+header {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  padding: 22px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.brand {
+  font-family: Georgia, serif;
+  letter-spacing: 4px;
+  font-size: 23px;
+}
+nav { display: flex; gap: 20px; flex-wrap: wrap; }
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+}
+nav a.active { color: var(--ink); font-weight: bold; }
+main { max-width: 1440px; margin: 0 auto; padding: 35px 5%; }
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+.eyebrow {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+h1 { font-family: Georgia, serif; font-weight: normal; margin: 8px 0; }
+.subtitle { color: var(--muted); font-size: 13px; }
+.controls { display: flex; gap: 10px; }
+select, button {
+  padding: 11px 14px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--ink);
+  cursor: pointer;
+}
+button { background: var(--ink); color: white; border-color: var(--ink); }
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.panel, .metric {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 22px;
+  min-width: 0;
+}
+.metric-label { color: var(--muted); font-size: 12px; }
+.metric-value { font-family: Georgia, serif; font-size: 29px; margin: 17px 0 8px; overflow-wrap: anywhere; }
+.metric-note { color: var(--muted); font-size: 11px; }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(270px, 1fr);
+  gap: 18px;
+  margin-bottom: 18px;
+}
+h2 { font-family: Georgia, serif; font-size: 19px; font-weight: normal; margin: 0 0 8px; }
+.panel-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 22px; }
+.chart {
+  display: flex;
+  align-items: stretch;
+  gap: 7px;
+  height: 220px;
+  border-bottom: 1px solid var(--line);
+  padding-top: 10px;
+}
+.bar-column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+.bar {
+  width: 100%;
+  max-width: 28px;
+  min-height: 2px;
+  background: #c7b79d;
+  position: relative;
+}
+.bar:hover { background: var(--accent); }
+.bar-label { font-size: 9px; color: var(--muted); white-space: nowrap; }
+.bar-value { font-size: 9px; color: var(--muted); text-align: center; }
+.list { display: grid; gap: 18px; }
+.list-row { display: grid; gap: 8px; }
+.list-heading { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; }
+.list-heading span:last-child { color: var(--muted); }
+.track { height: 5px; background: #f0ede7; }
+.fill { height: 100%; background: #b5a183; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 12px; white-space: nowrap; }
+th, td { padding: 13px 12px; text-align: left; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-weight: normal; }
+.status { display: inline-block; background: #f2efe9; padding: 5px 8px; border-radius: 2px; font-size: 10px; }
+.status.paid { background: #eaf2ec; color: var(--green); }
+.status.cancelled { background: #f8eae8; color: var(--red); }
+.message { padding: 12px 0; font-size: 13px; color: var(--muted); }
+footer { text-align: center; color: var(--muted); font-size: 11px; padding: 25px; }
+@media(max-width: 900px) {
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .layout { grid-template-columns: 1fr; }
+}
+@media(max-width: 480px) {
+  main { padding: 24px 4%; }
+  .metric { padding: 16px; }
+  .metric-value { font-size: 23px; }
+  .panel { padding: 16px; }
+  .brand { font-size: 19px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">EVA ATELIER</div>
+  <nav>
+    <a href="/admin">Products</a>
+    <a href="/admin/orders">Orders</a>
+    <a class="active" href="/admin/analytics">Analytics</a>
+    <a href="/">View Store</a>
+  </nav>
+</header>
+
+<main>
+  <div class="top">
+    <div>
+      <div class="eyebrow">Business overview</div>
+      <h1>Store Analytics</h1>
+      <div class="subtitle" id="updated">Monitor revenue, orders and product performance.</div>
+    </div>
+    <div class="controls">
+      <select id="period" aria-label="Analytics period">
+        <option value="7">Last 7 days</option>
+        <option value="30" selected>Last 30 days</option>
+        <option value="90">Last 90 days</option>
+      </select>
+      <button id="refresh">Refresh</button>
+    </div>
+  </div>
+
+  <section class="metrics">
+    <div class="metric">
+      <div class="metric-label">All-time orders</div>
+      <div class="metric-value" id="totalOrders">—</div>
+      <div class="metric-note">Including cancelled orders</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Paid revenue</div>
+      <div class="metric-value" id="paidRevenue">—</div>
+      <div class="metric-note">Excludes cancelled orders</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Average order value</div>
+      <div class="metric-value" id="averageOrder">—</div>
+      <div class="metric-note">Non-cancelled orders</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Pending orders</div>
+      <div class="metric-value" id="pendingOrders">—</div>
+      <div class="metric-note">Awaiting order processing</div>
+    </div>
+  </section>
+
+  <section class="layout">
+    <div class="panel">
+      <h2>Revenue performance</h2>
+      <div class="panel-subtitle" id="chartSubtitle">Paid revenue by day, in NPR</div>
+      <div class="chart" id="revenueChart">
+        <div class="message">Loading analytics…</div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Order status</h2>
+      <div class="panel-subtitle">All-time order distribution</div>
+      <div class="list" id="statusList"><div class="message">Loading…</div></div>
+    </div>
+  </section>
+
+  <section class="layout">
+    <div class="panel">
+      <h2>Top-selling products</h2>
+      <div class="panel-subtitle">Units sold from non-cancelled orders</div>
+      <div class="list" id="topProducts"><div class="message">Loading…</div></div>
+    </div>
+    <div class="panel">
+      <h2>Payment breakdown</h2>
+      <div class="panel-subtitle">Payment methods and recorded statuses</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Status</th><th>Orders</th></tr></thead>
+          <tbody id="payments"><tr><td colspan="3">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Recent orders</h2>
+    <div class="panel-subtitle">Latest recorded customer orders</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Order status</th><th>Payment</th></tr>
+        </thead>
+        <tbody id="recentOrders"><tr><td colspan="6">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <div id="error" class="message"></div>
+  </section>
+</main>
+<footer>EVA ATELIER · ADMINISTRATION</footer>
+
+<script>
+"use strict";
+
+const tokenKey = "eva_admin_token";
+const $ = id => document.getElementById(id);
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[character]);
+}
+
+function money(value) {
+  return "NPR " + Number(value || 0).toLocaleString("en-NP", {
+    maximumFractionDigits: 2
+  });
+}
+
+function niceDate(value) {
+  if (!value) return "—";
+  const parsed = new Date(value.length === 10 ? value + "T00:00:00" : value);
+  return Number.isNaN(parsed.getTime())
+    ? escapeHtml(value)
+    : parsed.toLocaleDateString("en-GB", {
+        day: "2-digit", month: "short", year: "numeric"
+      });
+}
+
+function statusClass(value) {
+  const status = String(value || "").toLowerCase();
+  if (status === "paid" || status === "completed" || status === "delivered") return "paid";
+  if (status === "cancelled" || status === "failed") return "cancelled";
+  return "";
+}
+
+async function loadAnalytics() {
+  const token = sessionStorage.getItem(tokenKey);
+
+  if (!token) {
+    $("error").textContent =
+      "Admin login token not found. Log in through the admin page, then reopen Analytics.";
+    return;
+  }
+
+  $("error").textContent = "";
+  $("refresh").disabled = true;
+  $("refresh").textContent = "Loading…";
+
+  try {
+    const days = $("period").value;
+    const response = await fetch(`/admin/analytics/data?days=${encodeURIComponent(days)}`, {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    if (response.status === 401 || response.status === 403) {
+      $("error").textContent =
+        "Your admin session may have expired or lacks permission. Log in again and retry.";
+      return;
+    }
+
+    if (!response.ok) {
+      const detail = await response.text();
+      throw new Error(`API returned ${response.status}: ${detail.slice(0, 300)}`);
+    }
+
+    const data = await response.json();
+    renderAnalytics(data);
+  } catch (error) {
+    console.error("Analytics loading failed:", error);
+    $("error").textContent = "Could not load analytics. " + error.message;
+  } finally {
+    $("refresh").disabled = false;
+    $("refresh").textContent = "Refresh";
+  }
+}
+
+function renderAnalytics(data) {
+  const summary = data.summary || {};
+
+  $("totalOrders").textContent = Number(summary.total_orders || 0).toLocaleString("en-NP");
+  $("paidRevenue").textContent = money(summary.paid_revenue);
+  $("averageOrder").textContent = money(summary.average_order_value);
+  $("pendingOrders").textContent = Number(summary.pending_orders || 0).toLocaleString("en-NP");
+  $("updated").textContent = `Updated ${new Date().toLocaleString()} · All amounts in NPR`;
+  $("chartSubtitle").textContent = `Paid revenue over the last ${data.period_days || $("period").value} days`;
+
+  renderRevenueChart(data.trend || []);
+  renderStatuses(data.order_statuses || []);
+  renderProducts(data.top_products || []);
+  renderPayments(data.payments || []);
+  renderRecentOrders(data.recent_orders || []);
+}
+
+function renderRevenueChart(trend) {
+  const chart = $("revenueChart");
+  if (!trend.length) {
+    chart.innerHTML = '<div class="message">No order data for this period yet.</div>';
+    return;
+  }
+
+  const maximum = Math.max(1, ...trend.map(row => Number(row.revenue || 0)));
+  const showEvery = trend.length > 45 ? 7 : trend.length > 20 ? 3 : trend.length > 10 ? 2 : 1;
+
+  chart.innerHTML = trend.map((row, index) => {
+    const revenue = Number(row.revenue || 0);
+    const height = revenue > 0 ? Math.max(4, revenue / maximum * 100) : 2;
+    const showLabel = index % showEvery === 0 || index === trend.length - 1;
+    return `
+      <div class="bar-column" title="${escapeHtml(row.date)} · ${money(revenue)}">
+        <div class="bar-value">${revenue > 0 ? escapeHtml(revenue.toLocaleString("en-NP", {maximumFractionDigits: 0})) : ""}</div>
+        <div class="bar" style="height:${height}%"></div>
+        <div class="bar-label">${showLabel ? escapeHtml(String(row.date || "").slice(5)) : ""}</div>
+      </div>`;
+  }).join("");
+}
+
+function renderStatuses(rows) {
+  const container = $("statusList");
+  if (!rows.length) {
+    container.innerHTML = '<div class="message">No orders recorded yet.</div>';
+    return;
+  }
+
+  const total = Math.max(1, rows.reduce((sum, row) => sum + Number(row.count || 0), 0));
+  container.innerHTML = rows.map(row => {
+    const count = Number(row.count || 0);
+    const percentage = count / total * 100;
+    return `
+      <div class="list-row">
+        <div class="list-heading">
+          <span>${escapeHtml(row.status || "Unknown")}</span>
+          <span>${count} · ${percentage.toFixed(1)}%</span>
+        </div>
+        <div class="track"><div class="fill" style="width:${percentage}%"></div></div>
+      </div>`;
+  }).join("");
+}
+
+function renderProducts(rows) {
+  const container = $("topProducts");
+  if (!rows.length) {
+    container.innerHTML = '<div class="message">Product sales will appear here after orders are placed.</div>';
+    return;
+  }
+
+  const maximum = Math.max(1, ...rows.map(row => Number(row.units_sold || 0)));
+  container.innerHTML = rows.map(row => {
+    const units = Number(row.units_sold || 0);
+    const percentage = units / maximum * 100;
+    return `
+      <div class="list-row">
+        <div class="list-heading">
+          <span>${escapeHtml(row.name || "Product")}</span>
+          <span>${units} sold</span>
+        </div>
+        <div class="track"><div class="fill" style="width:${percentage}%"></div></div>
+        <div class="metric-note">${money(row.sales_value)}</div>
+      </div>`;
+  }).join("");
+}
+
+function renderPayments(rows) {
+  const body = $("payments");
+  if (!rows.length) {
+    body.innerHTML = '<tr><td colspan="3">No payment records yet.</td></tr>';
+    return;
+  }
+
+  body.innerHTML = rows.map(row => `
+    <tr>
+      <td>${escapeHtml(row.method || "Unknown")}</td>
+      <td><span class="status ${statusClass(row.status)}">${escapeHtml(row.status || "Unknown")}</span></td>
+      <td>${Number(row.count || 0)}</td>
+    </tr>`).join("");
+}
+
+function renderRecentOrders(rows) {
+  const body = $("recentOrders");
+  if (!rows.length) {
+    body.innerHTML = '<tr><td colspan="6">No orders recorded yet.</td></tr>';
+    return;
+  }
+
+  body.innerHTML = rows.map(row => `
+    <tr>
+      <td>${escapeHtml(row.order_number || ("#" + row.id))}</td>
+      <td>${escapeHtml(row.customer_name || "Customer")}</td>
+      <td>${niceDate(row.created_at)}</td>
+      <td>${money(row.total)}</td>
+      <td><span class="status ${statusClass(row.status)}">${escapeHtml(row.status || "Unknown")}</span></td>
+      <td><span class="status ${statusClass(row.payment_status)}">${escapeHtml(row.payment_status || "Unknown")}</span></td>
+    </tr>`).join("");
+}
+
+$("refresh").addEventListener("click", loadAnalytics);
+$("period").addEventListener("change", loadAnalytics);
+loadAnalytics();
+</script>
+</body>
+</html>

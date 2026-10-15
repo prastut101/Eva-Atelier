@@ -1,0 +1,68 @@
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Python virtual environments
+venv/
+.venv/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+
+# Local database
+eva_atelier.db
+*.db-shm
+*.db-wal
+
+# Uploaded product images
+uploads/
+
+# Development artifacts
+.DS_Store
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+
+# Backups containing private data
+backups/
+.vercel
+.env*
+
+# Secrets and environment files
+.env*
+!.env.example
+
+# Databases and backups
+*.db
+*.sqlite
+*.sqlite3
+*_backup_*.db
+
+# Archives and temporary files
+*.zip
+*.tmp
+
+# Python environments and cache
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# macOS and notebooks
+.DS_Store
+.ipynb_checkpoints/
+frontend-backup-20261013-112259/
+
+# Local backup copies
+*.backup
+*.bak
+*.before_analytics
+frontend-backup-*/
+
+# Local backup copies
+*.backup
+*.bak
+*.before_analytics
+frontend-backup-*/

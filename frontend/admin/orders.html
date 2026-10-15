@@ -1,0 +1,735 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders | EVA Atelier Admin</title>
+  <style>
+    :root {
+      --ink: #22211f;
+      --muted: #77746e;
+      --line: #e8e5df;
+      --paper: #faf9f6;
+      --white: #fff;
+      --accent: #66533e;
+      --green: #256d49;
+      --red: #a33c35;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI",
+            sans-serif;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      background: #242320;
+      color: white;
+      padding: 28px 18px;
+    }
+
+    .brand {
+      font-family: Georgia, serif;
+      font-size: 23px;
+      letter-spacing: 2px;
+      margin: 0 10px 5px;
+    }
+
+    .brand-sub {
+      color: #c1bdb5;
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin: 0 10px 36px;
+      text-transform: uppercase;
+    }
+
+    .nav-label {
+      color: #a7a39a;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      margin: 24px 10px 10px;
+      text-transform: uppercase;
+    }
+
+    .nav-link {
+      display: block;
+      color: #e5e1da;
+      text-decoration: none;
+      padding: 11px 12px;
+      border-radius: 4px;
+      margin: 3px 0;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: #3c3933;
+      color: white;
+    }
+
+    main { min-width: 0; }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 24px 32px;
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      font: 30px/1.2 Georgia, serif;
+      font-weight: normal;
+      margin: 0 0 6px;
+    }
+
+    .muted { color: var(--muted); }
+
+    .content { padding: 30px 32px; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat, .panel {
+      background: var(--white);
+      border: 1px solid var(--line);
+    }
+
+    .stat { padding: 20px; }
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .stat-number { font: 28px Georgia, serif; }
+
+    .panel { padding: 22px; }
+
+    .panel-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font: 22px Georgia, serif;
+      font-weight: normal;
+      margin: 0;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    input, select {
+      background: white;
+      border: 1px solid #dcd8d0;
+      border-radius: 3px;
+      padding: 10px 12px;
+      color: var(--ink);
+    }
+
+    input { min-width: 210px; }
+    select { max-width: 100%; }
+
+    .btn {
+      border: 1px solid #d6d1c8;
+      background: white;
+      color: var(--ink);
+      border-radius: 3px;
+      padding: 9px 13px;
+    }
+
+    .btn:hover { background: #f2f0eb; }
+
+    .btn-dark {
+      background: #272622;
+      color: white;
+      border-color: #272622;
+    }
+
+    .btn-dark:hover { background: #45423b; }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 15px 12px;
+    }
+
+    th:first-child, td:first-child { padding-left: 0; }
+    tbody tr:last-child td { border-bottom: 0; }
+
+    .order-id { font-weight: 650; }
+    .customer-name { font-weight: 600; }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 3px;
+      background: #efede8;
+      color: #57534b;
+      font-size: 11px;
+      text-transform: capitalize;
+    }
+
+    .badge.paid, .badge.delivered { background: #e7f2e9; color: #256d49; }
+    .badge.cancelled, .badge.failed { background: #f8e9e7; color: #a33c35; }
+    .badge.shipped, .badge.processing { background: #e8edf7; color: #3f5687; }
+    .badge.pending, .badge.unpaid { background: #f7f0dc; color: #86651c; }
+
+    .message {
+      padding: 24px 8px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .error { color: var(--red); }
+    .hidden { display: none !important; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      background: #0008;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .drawer {
+      width: min(600px, 100%);
+      height: 100%;
+      overflow-y: auto;
+      background: var(--paper);
+      padding: 28px;
+      box-shadow: -8px 0 30px #0001;
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .detail-section {
+      background: white;
+      border: 1px solid var(--line);
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .detail-section h3 {
+      margin: 0 0 14px;
+      font-size: 13px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0eee9;
+    }
+
+    .detail-row:last-child { border-bottom: 0; }
+    .detail-row span:first-child { color: var(--muted); }
+    .detail-row span:last-child {
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .field { margin: 14px 0; }
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .field select { width: 100%; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .notice { margin: 12px 0; font-size: 13px; }
+
+    @media (max-width: 850px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { padding: 16px; }
+      .brand-sub { margin-bottom: 14px; }
+      .nav-label { margin-top: 12px; }
+      header, .content { padding: 20px; }
+      .stats { grid-template-columns: 1fr; gap: 10px; }
+      .stat { padding: 14px; }
+      .stat-number { font-size: 24px; }
+    }
+
+    @media (max-width: 520px) {
+      header { align-items: flex-start; flex-direction: column; }
+      .panel { padding: 14px; }
+      .filters, .filters input, .filters select { width: 100%; }
+      .drawer { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <div class="brand">EVA ATELIER</div>
+    <div class="brand-sub">Administration</div>
+
+    <div class="nav-label">Store management</div>
+    <a class="nav-link" href="/admin">Dashboard / Products</a>
+    <a class="nav-link active" href="/admin/orders">Orders</a>
+    <a class="nav-link" href="/">View storefront</a>
+  </aside>
+
+  <main>
+    <header>
+      <div>
+        <h1>Orders</h1>
+        <div class="muted">Review purchases and manage fulfilment.</div>
+      </div>
+      <button class="btn" id="refreshButton">Refresh orders</button>
+    </header>
+
+    <div class="content">
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">Total orders loaded</div>
+          <div class="stat-number" id="totalOrders">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Awaiting confirmation</div>
+          <div class="stat-number" id="pendingOrders">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Revenue from loaded orders</div>
+          <div class="stat-number" id="revenue">—</div>
+        </div>
+      </div>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Order register</h2>
+            <div class="muted" style="margin-top:5px">
+              Select an order to inspect its details.
+            </div>
+          </div>
+          <div class="filters">
+            <input id="searchInput" type="search"
+                   placeholder="Search order, name, phone">
+            <select id="statusFilter" aria-label="Filter by order status">
+              <option value="">All order statuses</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="processing">Processing</option>
+              <option value="shipped">Shipped</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="pageMessage" class="message">Loading orders…</div>
+
+        <div class="table-wrap">
+          <table id="ordersTable" class="hidden">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Order status</th>
+                <th>Payment</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div id="orderModal" class="modal hidden" role="dialog"
+     aria-modal="true" aria-labelledby="detailTitle">
+  <section class="drawer">
+    <div class="drawer-header">
+      <div>
+        <h2 id="detailTitle">Order details</h2>
+        <div id="detailSubtitle" class="muted"></div>
+      </div>
+      <button class="btn" id="closeModal" aria-label="Close details">Close</button>
+    </div>
+
+    <div id="detailMessage" class="notice" role="status"></div>
+    <div id="detailContent"></div>
+  </section>
+</div>
+
+<script>
+  const tokenKey = "eva_admin_token";
+  const $ = (id) => document.getElementById(id);
+
+  let orders = [];
+  let selectedOrderId = null;
+
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[character]);
+  }
+
+  function money(value) {
+    return "NPR " + Number(value || 0).toLocaleString("en-NP", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+
+  function badge(value) {
+    const safe = escapeHTML(value || "unknown");
+    const className = String(value || "").toLowerCase()
+      .replace(/[^a-z-]/g, "");
+    return `<span class="badge ${className}">${safe}</span>`;
+  }
+
+  function getToken() {
+    return sessionStorage.getItem(tokenKey);
+  }
+
+  async function api(path, options = {}) {
+    const token = getToken();
+
+    if (!token) {
+      throw new Error("Admin session not found. Please log in again.");
+    }
+
+    const response = await fetch(path, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        "Authorization": `Bearer ${token}`,
+        ...(options.body ? { "Content-Type": "application/json" } : {})
+      }
+    });
+
+    if (response.status === 401 || response.status === 403) {
+      sessionStorage.removeItem(tokenKey);
+      throw new Error("Your admin session expired or is not authorized. Log in again.");
+    }
+
+    const text = await response.text();
+    let data = null;
+
+    try {
+      data = text ? JSON.parse(text) : null;
+    } catch {
+      data = text;
+    }
+
+    if (!response.ok) {
+      const detail = data && data.detail;
+      const message = Array.isArray(detail)
+        ? detail.map(item => item.msg).join(", ")
+        : (detail || `Request failed (${response.status})`);
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  function showPageMessage(message, isError = false) {
+    $("pageMessage").textContent = message;
+    $("pageMessage").classList.toggle("error", isError);
+    $("pageMessage").classList.remove("hidden");
+    $("ordersTable").classList.add("hidden");
+  }
+
+  async function loadOrders() {
+    showPageMessage("Loading orders…");
+
+    try {
+      const result = await api("/orders/?limit=100");
+      orders = Array.isArray(result) ? result : [];
+
+      $("totalOrders").textContent = orders.length;
+      $("pendingOrders").textContent =
+        orders.filter(order => order.status === "pending").length;
+
+      const revenue = orders
+        .filter(order => order.status !== "cancelled")
+        .reduce((sum, order) => sum + Number(order.total || 0), 0);
+
+      $("revenue").textContent = money(revenue);
+      renderOrders();
+    } catch (error) {
+      showPageMessage(error.message, true);
+    }
+  }
+
+  function renderOrders() {
+    const search = $("searchInput").value.trim().toLowerCase();
+    const status = $("statusFilter").value;
+
+    const filtered = orders.filter(order => {
+      const searchable = [
+        order.order_number,
+        order.customer_name,
+        order.customer_phone,
+        order.customer_email
+      ].join(" ").toLowerCase();
+
+      return searchable.includes(search) &&
+        (!status || order.status === status);
+    });
+
+    if (!filtered.length) {
+      showPageMessage(
+        orders.length ? "No orders match your filters." : "No orders found yet."
+      );
+      return;
+    }
+
+    $("pageMessage").classList.add("hidden");
+    $("ordersTable").classList.remove("hidden");
+
+    $("ordersBody").innerHTML = filtered.map(order => `
+      <tr>
+        <td>
+          <div class="order-id">${escapeHTML(order.order_number)}</div>
+          <div class="muted">ID ${escapeHTML(order.id)}</div>
+        </td>
+        <td>
+          <div class="customer-name">${escapeHTML(order.customer_name)}</div>
+          <div class="muted">${escapeHTML(order.customer_phone)}</div>
+        </td>
+        <td>${money(order.total)}</td>
+        <td>${badge(order.status)}</td>
+        <td>${badge(order.payment_status)}</td>
+        <td>
+          <button class="btn view-order" data-id="${Number(order.id)}">
+            View details
+          </button>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  function detailRow(label, value) {
+    return `<div class="detail-row">
+      <span>${escapeHTML(label)}</span>
+      <span>${escapeHTML(value ?? "—")}</span>
+    </div>`;
+  }
+
+  async function viewOrder(id) {
+    selectedOrderId = Number(id);
+    $("orderModal").classList.remove("hidden");
+    $("detailTitle").textContent = "Order details";
+    $("detailSubtitle").textContent = `Order ID ${id}`;
+    $("detailContent").innerHTML = "";
+    $("detailMessage").textContent = "Loading order details…";
+    $("detailMessage").className = "notice muted";
+
+    try {
+      const order = await api(`/orders/${encodeURIComponent(id)}`);
+
+      $("detailTitle").textContent = order.order_number;
+      $("detailSubtitle").textContent =
+        `Order ID ${order.id} · ${order.payment_method.toUpperCase()}`;
+
+      const items = (order.items || []).map(item => `
+        <div class="detail-section">
+          <div class="customer-name">${escapeHTML(item.product_name)}</div>
+          <div class="muted">SKU: ${escapeHTML(item.product_sku)}</div>
+          ${detailRow("Unit price", money(item.unit_price))}
+          ${detailRow("Quantity", item.quantity)}
+          ${detailRow("Line total", money(item.line_total))}
+        </div>
+      `).join("");
+
+      $("detailContent").innerHTML = `
+        <div class="detail-section">
+          <h3>Customer information</h3>
+          ${detailRow("Name", order.customer_name)}
+          ${detailRow("Phone", order.customer_phone)}
+          ${detailRow("Email", order.customer_email || "Not provided")}
+          ${detailRow("Shipping address", order.shipping_address)}
+          ${detailRow("Customer notes", order.notes || "None")}
+        </div>
+
+        <div class="detail-section">
+          <h3>Purchased items</h3>
+          ${items || '<p class="muted">No line items found.</p>'}
+        </div>
+
+        <div class="detail-section">
+          <h3>Payment summary</h3>
+          ${detailRow("Subtotal", money(order.subtotal))}
+          ${detailRow("Shipping", money(order.shipping_fee))}
+          ${detailRow("Total", money(order.total))}
+          ${detailRow("Payment method", order.payment_method)}
+          ${detailRow("Payment status", order.payment_status)}
+          ${detailRow("Order status", order.status)}
+        </div>
+
+        <div class="detail-section">
+          <h3>Manage order</h3>
+          <div class="field">
+            <label for="newOrderStatus">Order status</label>
+            <select id="newOrderStatus">
+              ${["pending","confirmed","processing","shipped","delivered","cancelled"]
+                .map(status => `<option value="${status}"
+                  ${order.status === status ? "selected" : ""}>
+                  ${status.charAt(0).toUpperCase() + status.slice(1)}
+                </option>`).join("")}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="newPaymentStatus">Payment status</label>
+            <select id="newPaymentStatus">
+              ${["unpaid","pending","paid","failed","refunded"]
+                .map(status => `<option value="${status}"
+                  ${order.payment_status === status ? "selected" : ""}>
+                  ${status.charAt(0).toUpperCase() + status.slice(1)}
+                </option>`).join("")}
+            </select>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-dark" id="saveOrderStatus">Save order status</button>
+            <button class="btn" id="savePaymentStatus">Save payment status</button>
+          </div>
+          <div id="updateMessage" class="notice" role="status"></div>
+        </div>
+      `;
+
+      $("detailMessage").textContent = "";
+      $("detailMessage").className = "notice";
+      $("saveOrderStatus").addEventListener("click", saveOrderStatus);
+      $("savePaymentStatus").addEventListener("click", savePaymentStatus);
+    } catch (error) {
+      $("detailMessage").textContent = error.message;
+      $("detailMessage").className = "notice error";
+    }
+  }
+
+  async function saveOrderStatus() {
+    if (!selectedOrderId) return;
+
+    const status = $("newOrderStatus").value;
+    const message = $("updateMessage");
+    message.textContent = "Saving order status…";
+    message.className = "notice muted";
+
+    try {
+      await api(`/orders/${selectedOrderId}/status`, {
+        method: "PATCH",
+        body: JSON.stringify({ status })
+      });
+      message.textContent = "Order status updated.";
+      message.className = "notice";
+      await loadOrders();
+      await viewOrder(selectedOrderId);
+    } catch (error) {
+      message.textContent = error.message;
+      message.className = "notice error";
+    }
+  }
+
+  async function savePaymentStatus() {
+    if (!selectedOrderId) return;
+
+    const payment_status = $("newPaymentStatus").value;
+    const message = $("updateMessage");
+    message.textContent = "Saving payment status…";
+    message.className = "notice muted";
+
+    try {
+      await api(`/orders/${selectedOrderId}/payment-status`, {
+        method: "PATCH",
+        body: JSON.stringify({ payment_status })
+      });
+      message.textContent = "Payment status updated.";
+      message.className = "notice";
+      await loadOrders();
+      await viewOrder(selectedOrderId);
+    } catch (error) {
+      message.textContent = error.message;
+      message.className = "notice error";
+    }
+  }
+
+  $("ordersBody").addEventListener("click", event => {
+    const button = event.target.closest(".view-order");
+    if (button) viewOrder(button.dataset.id);
+  });
+
+  $("searchInput").addEventListener("input", renderOrders);
+  $("statusFilter").addEventListener("change", renderOrders);
+  $("refreshButton").addEventListener("click", loadOrders);
+
+  $("closeModal").addEventListener("click", () => {
+    $("orderModal").classList.add("hidden");
+  });
+
+  $("orderModal").addEventListener("click", event => {
+    if (event.target === $("orderModal")) {
+      $("orderModal").classList.add("hidden");
+    }
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") $("orderModal").classList.add("hidden");
+  });
+
+  loadOrders();
+</script>
+</body>
+</html>

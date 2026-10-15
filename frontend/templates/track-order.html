@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf8f3">
+  <title>Track Your Order | EVA Atelier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/premium.css">
+  <link rel="stylesheet" href="/static/css/wishlist-tracking.css">
+  <script src="/static/js/order-tracking.js" defer></script>
+</head>
+<body>
+  <div class="announcement">EVA ATELIER · YOUR ORDER, THOUGHTFULLY HANDLED</div>
+  <header class="site-header">
+    <a class="wordmark" href="/">EVA <span>ATELIER</span></a>
+    <nav class="main-nav">
+      <a href="/">SHOP</a>
+      <a href="/wishlist">WISHLIST</a>
+      <a href="/track-order" aria-current="page">TRACK ORDER</a>
+    </nav>
+  </header>
+
+  <main class="feature-page tracking-page">
+    <p class="eyebrow">AFTER THE ORDER</p>
+    <h1>Your order, <em>in view.</em></h1>
+    <p class="feature-intro">Enter the order reference from your confirmation and the phone number used at checkout.</p>
+
+    <form id="tracking-form" class="tracking-form">
+      <label for="tracking-number">Order number</label>
+      <input id="tracking-number" name="order_number" placeholder="EVA-XXXXXXXXXX" autocomplete="off" required minlength="5" maxlength="40">
+
+      <label for="tracking-phone">Checkout phone number</label>
+      <input id="tracking-phone" name="customer_phone" type="tel" autocomplete="tel" required minlength="7" maxlength="30">
+
+      <button class="primary-button" id="tracking-submit" type="submit">TRACK MY ORDER <span>→</span></button>
+      <p id="tracking-message" class="feature-message" role="status" aria-live="polite"></p>
+    </form>
+
+    <section id="tracking-result" class="tracking-result" hidden aria-live="polite"></section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="wordmark" href="/">EVA <span>ATELIER</span></a>
+    <p>Every carry tells a story.</p>
+    <a href="mailto:evaatelierofficial.np@gmail.com">NEED HELP? CONTACT US</a>
+  </footer>
+</body>
+</html>

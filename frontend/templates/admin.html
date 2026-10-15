@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Studio | EVA Atelier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/admin.css">
+  <script src="/static/js/admin.js" defer></script>
+</head>
+<body>
+  <section id="login-screen" class="login-screen">
+    <form id="login-form" class="login-card">
+      <a class="brand" href="/">EVA <span>ATELIER</span></a>
+      <p class="eyebrow">PRIVATE ACCESS</p>
+      <h1>Welcome back.</h1>
+      <p class="muted">Sign in to manage your collection.</p>
+      <label for="username">Username</label>
+      <input id="username" name="username" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+      <button class="button button-dark full" type="submit">Sign in</button>
+      <p id="login-message" class="message" role="alert"></p>
+      <a class="back-link" href="/">← Return to storefront</a>
+    </form>
+  </section>
+
+  <div id="dashboard" hidden>
+    <aside class="sidebar">
+      <a class="brand" href="/">EVA <span>ATELIER</span></a>
+      <p class="eyebrow sidebar-label">WORKSPACE</p>
+      <a class="side-link active" href="#overview">Overview</a>
+      <a class="side-link" href="#inventory">Products</a>
+      <a class="side-link" href="#product-editor">Add a product</a>
+      <div class="sidebar-bottom">
+        <a class="back-link" href="/">View storefront ↗</a>
+        <button id="logout-button" class="button button-outline full" type="button">Sign out</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">EVA ATELIER / MANAGEMENT</p>
+          <h1>Admin studio</h1>
+        </div>
+        <span class="admin-pill">ADMINISTRATOR</span>
+      </header>
+
+      <section id="overview" class="stats-grid">
+        <article class="stat-card">
+          <p class="stat-label">TOTAL PRODUCTS</p>
+          <p id="total-products" class="stat-value">—</p>
+          <p class="stat-note">Across your catalog</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-label">AVAILABLE</p>
+          <p id="available-products" class="stat-value">—</p>
+          <p class="stat-note">Marked in stock</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-label">OUT OF STOCK</p>
+          <p id="soldout-products" class="stat-value">—</p>
+          <p class="stat-note">Currently unavailable</p>
+        </article>
+      </section>
+
+      <section id="product-editor" class="panel editor-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">CATALOG MANAGEMENT</p>
+            <h2 id="editor-title">Add a new piece</h2>
+          </div>
+          <button id="cancel-edit" class="button button-outline" type="button" hidden>Cancel editing</button>
+        </div>
+
+        <form id="product-form">
+          <input id="product-id" type="hidden">
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="product-name">Product name *</label>
+              <input id="product-name" maxlength="150" required placeholder="e.g. The Everyday Tote">
+            </div>
+            <div class="field">
+              <label for="product-sku">SKU / Product code *</label>
+              <input id="product-sku" maxlength="50" required placeholder="e.g. EVA-TOTE-003">
+            </div>
+            <div class="field">
+              <label for="product-price">Price (NPR) *</label>
+              <input id="product-price" type="number" min="0.01" step="0.01" required placeholder="3500">
+            </div>
+            <div class="field">
+              <label for="product-category">Collection</label>
+              <select id="product-category">
+                <option value="">Uncategorised</option>
+              </select>
+            </div>
+            <div class="field field-wide">
+              <label for="product-description">Description *</label>
+              <textarea id="product-description" rows="4" maxlength="2000" required placeholder="Describe the design, finish and everyday appeal."></textarea>
+            </div>
+            <div class="field">
+              <label for="product-image">Product image</label>
+              <input id="product-image" type="file" accept="image/jpeg,image/png,image/webp">
+              <small>JPEG, PNG or WebP. Maximum 5 MB.</small>
+              <div id="current-image-wrap" hidden>
+                <img id="current-image" class="current-image" alt="Current product image">
+                <small>Choose a new image to replace this one.</small>
+              </div>
+            </div>
+            <div class="field field-check">
+              <label class="checkbox-label">
+                <input id="product-stock" type="checkbox" checked>
+                Available for purchase
+              </label>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button id="save-product" class="button button-dark" type="submit">Save product</button>
+            <button id="reset-form" class="button button-outline" type="button">Clear form</button>
+          </div>
+          <p id="form-message" class="message" role="status"></p>
+        </form>
+      </section>
+
+      <section id="inventory" class="panel inventory-panel">
+        <div class="panel-heading inventory-heading">
+          <div>
+            <p class="eyebrow">YOUR COLLECTION</p>
+            <h2>Product inventory</h2>
+          </div>
+          <button id="refresh-products" class="button button-outline" type="button">Refresh list ↻</button>
+        </div>
+        <div class="toolbar">
+          <input id="search-products" type="search" placeholder="Search name or SKU…" aria-label="Search products">
+          <select id="filter-category" aria-label="Filter by category">
+            <option value="all">All collections</option>
+          </select>
+          <select id="filter-stock" aria-label="Filter by stock">
+            <option value="all">All stock statuses</option>
+            <option value="in">In stock</option>
+            <option value="out">Out of stock</option>
+          </select>
+        </div>
+        <p id="inventory-message" class="message" role="status"></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>PRODUCT</th>
+                <th>SKU</th>
+                <th>PRICE</th>
+                <th>COLLECTION</th>
+                <th>STATUS</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="product-table-body">
+              <tr><td colspan="6" class="empty-row">Loading inventory…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="admin-footer">EVA ATELIER · PRODUCT MANAGEMENT</footer>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product | EVA Atelier</title>
+  <meta name="description" content="Discover the EVA Atelier collection.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/premium.css">
+  <link rel="stylesheet" href="/static/css/cart.css">
+  <link rel="stylesheet" href="/static/css/product.css">
+  <script src="/static/js/product.js" defer></script>
+  <script src="/static/js/cart.js" defer></script>
+</head>
+<body>
+  <div class="announcement-bar">COMPLIMENTARY CARE · EVERY DETAIL MATTERS</div>
+
+  <header class="site-header">
+    <a class="wordmark" href="/">
+      <span class="wordmark-main">EVA</span>
+      <span class="wordmark-sub">ATELIER</span>
+    </a>
+    <nav class="main-nav">
+      <a href="/">Shop all</a>
+      <a href="/#collection">Collections</a>
+      <a href="/wishlist">Wishlist</a>
+      <a href="/track-order">Track order</a>
+    </nav>
+  </header>
+
+  <main class="detail-page">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span>/</span><span id="breadcrumb-name">Product</span>
+    </nav>
+
+    <p id="loading-message" class="detail-message">Discovering your piece…</p>
+    <p id="error-message" class="detail-message" hidden></p>
+
+    <section id="product-detail" class="detail-layout" hidden>
+      <div class="detail-image-panel">
+        <img id="detail-image" class="detail-image" alt="">
+        <div id="detail-image-fallback" class="detail-fallback" hidden>
+          <span>EVA ATELIER</span>
+          <span>EVERY CARRY TELLS A STORY</span>
+        </div>
+      </div>
+
+      <div class="detail-information">
+        <p id="detail-category" class="eyebrow"></p>
+        <h1 id="detail-name"></h1>
+        <p id="detail-sku" class="detail-sku"></p>
+        <p id="detail-price" class="detail-price"></p>
+        <p id="detail-stock" class="detail-stock"></p>
+        <div class="detail-rule"></div>
+        <h2>About this piece</h2>
+        <p id="detail-description" class="detail-description"></p>
+        <p class="detail-note">Thoughtfully selected for your everyday wardrobe.</p>
+        <a class="button button-dark detail-back" href="/#collection">Explore the collection</a>
+        <p class="detail-help">Interested in this piece? Contact EVA Atelier through your preferred customer service channel.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">EVA ATELIER</p>
+    <p>Every carry tells a story.</p>
+    <a href="/">Return to the collection</a>
+  </footer>
+</body>
+</html>
