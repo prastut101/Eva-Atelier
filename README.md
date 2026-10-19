@@ -182,7 +182,7 @@ uvicorn backend.app.main:app --reload
 
 The local API should be available at:
 
-- **Application:** http://127.0.0.1:8000
+- **Application:** 
 - **Interactive API documentation:**
 - **Alternative API documentation:** 
 
