@@ -183,8 +183,8 @@ uvicorn backend.app.main:app --reload
 The local API should be available at:
 
 - **Application:** http://127.0.0.1:8000
-- **Interactive API documentation:** http://127.0.0.1:8000/docs
-- **Alternative API documentation:** http://127.0.0.1:8000/redoc
+- **Interactive API documentation:**
+- **Alternative API documentation:** 
 
 The exact endpoints available depend on the routes registered in the application.
 
